@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %} Let's Ride {% endblock %}
+
+{% block style %}
+
+<style>.form-field{
+    padding-bottom: 40px;
+}</style>
+<script>function showRiderForm() {
+	document.getElementById("requester-form-container").style.display = "none";
+	document.getElementById("rider-form-container").style.display = "block";
+}
+
+function showRequesterForm() {
+	document.getElementById("requester-form-container").style.display = "block";
+	document.getElementById("rider-form-container").style.display = "none";
+} </script>
+{% endblock %}
+
+{% block content %}
+
+<div style="margin: 40px;">
+    {% for message in messages %}
+    <center>
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert" style="width: 400px;">
+            <strong>Message : </strong> {{ message }}
+    </center>
+    {% endfor %}
+
+    <a style="padding-bottom: 50px" href="/profile">Hello User</a>
+
+    <div>
+        <div class="form-container requester-form-container" id="requester-form-container">
+            <!-- needs to update action -->
+            <form action="/requester" method="POST">
+                {% csrf_token %}
+
+                <div class="form-field">
+                    <label for="from">From</label>
+                    <input type="text" name="from" placeholder="Ex. Udaipur" required>
+
+                    <label for="to">To</label>
+                    <input type="text" name="to" placeholder="Ex. Jabalpur" required>
+                </div>
+
+                <div class="form-field">
+                    <label for="dateTime">Date & Time</label>
+                    <input type="datetime-local" name="dateTime" required>
+                </div>
+
+                <div class="form-field">
+                    <label for="no_assets">No of Assets</label>
+                    <input type="number" name="no_assets" required>
+                </div>
+
+                <div class="form-field">
+                    <label for="asset_type">Asset Type</label>
+
+                    <select name="asset_type">
+                        <option value="LPT">Laptop</option>
+                        <option value="BAG">Travel Bag</option>
+                        <option value="PKG">Package</option>
+                      </select>
+                </div>
+
+                <div class="form-field">
+                    <label for="asset_sensitivity">Asset Sensitivity</label>
+
+                    <select name="asset_sensitivity">
+                        <option value="HIGH">Highly Sensitive</option>
+                        <option value="NRML">Sensitive</option>
+                        <option value="LOW">Normal</option>
+                      </select>
+                </div>
+                
+                <div class="form-field">
+                    <label for="receiver">Whom to Deliver</label>
+                    <input type="text" name="receiver" placeholder="Ex. Divyanshi Pagaria" required>
+                </div>
+
+                <button type="submit">Schedule</button>
+            </form>
+
+            <button onclick="showRiderForm()">Wanna be a Rider?</button>
+        </div>
+        <div class="form-container rider-form-container" id="rider-form-container" style="display: none;">
+            <!-- needs to update action -->
+            <form action="/rider" method="POST">
+                {% csrf_token %}
+
+                <div class="form-field">
+                    <label for="from">From</label>
+                    <input type="text" name="from" placeholder="Ex. Udaipur" required>
+
+                    <label for="to">To</label>
+                    <input type="text" name="to" placeholder="Ex. Jabalpur" required>
+                </div>
+
+                <div class="form-field">
+                    <label for="dateTime">Date & Time</label>
+                    <input type="datetime-local" name="dateTime" required>
+                </div>
+
+                <div class="form-field">
+                    <label for="no_assets">No of Assets</label>
+                    <input type="number" name="no_assets" required>
+                </div>
+
+                <div class="form-field">
+                    <label for="travel_medium">Travel Medium</label>
+
+                    <select name="travel_medium">
+                        <option value="BUS">Bus</option>
+                        <option value="CAR">Car</option>
+                        <option value="TRN">Train</option>
+                      </select>
+                </div>
+
+            
+                <button type="submit">Schedule</button>
+            </form>
+
+            <button onclick="showRequesterForm()">Wanna request?</button>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

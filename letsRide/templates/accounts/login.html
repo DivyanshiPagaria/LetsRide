@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %} Let's Ride | Login {% endblock %}
+
+{% block style %}
+
+    <!-- <link rel="stylesheet" href="{% static 'accounts/style.css' %}" type="text/css" /> -->
+    <script>
+        function showSignUp() {
+	document.getElementById("sign-in-container").style.display = "none";
+	document.getElementById("sign-up-container").style.display = "block";
+}
+
+function showSignIn() {
+	document.getElementById("sign-in-container").style.display = "block";
+	document.getElementById("sign-up-container").style.display = "none";
+} 
+    </script>
+
+{% endblock %}
+
+{% block content %}
+
+<div style="margin: 40px;">
+    {% for message in messages %}
+    <center>
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert" style="width: 400px;">
+            <strong>Message : </strong> {{ message }}
+    </center>
+    {% endfor %}
+
+
+    <div class="container right-panel-active px-0 py-0" id="container" style="margin: 0px;">
+
+        <div class="form-container sign-up-container" id="sign-up-container" style="display: none;">
+
+            <form action="/accounts/signup" method="POST">
+                {% csrf_token %}
+                <h1>Create Account</h1>
+
+                <input type="text" name="username" placeholder="username" required />
+                <input type="email" name="email" placeholder="Email" required />
+                <input type="password" name="pass1" placeholder="Password" required />
+                <input type="password" name="pass2" placeholder="Confirm Password" required />
+                <span class="form-error"></span>
+                <br />
+
+                <button type='submit' name='submit' value='sign_up'>Sign Up</button>
+
+            </form>
+            <button onclick="showSignIn()">Old User?</button>
+
+        </div>
+
+        <div class="form-container sign-in-container" id="sign-in-container">
+            <form action='/accounts/login' method="POST">
+                {% csrf_token %}
+                <h1>Sign in</h1>
+                <br />
+                <span class="form-error"> </span>
+                <input type="text" name="username" placeholder="Username" required />
+                <input type="password" name="password" placeholder="password" required />
+                <button type='submit' name='submit' value='login'>Sign In</button>
+            </form>
+
+            <button onclick="showSignUp()">New User?</button>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
